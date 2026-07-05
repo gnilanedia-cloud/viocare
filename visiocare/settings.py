@@ -20,14 +20,14 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get(
     'DJANGO_ALLOWED_HOSTS',
-    'visiocare.pythonanywhere.com,localhost,127.0.0.1'
+    'visiocaremedecine.pythonanywhere.com,localhost,127.0.0.1'
 ).split(',')
 
 # Nécessaire pour que Django accepte les soumissions de formulaires (POST)
 # en HTTPS depuis le domaine PythonAnywhere (protection CSRF).
 CSRF_TRUSTED_ORIGINS = os.environ.get(
     'DJANGO_CSRF_TRUSTED_ORIGINS',
-    'https://visiocare.pythonanywhere.com'
+    'https://visiocaremedecine.pythonanywhere.com'
 ).split(',')
 
 # -----------------------------------------------------------------------
