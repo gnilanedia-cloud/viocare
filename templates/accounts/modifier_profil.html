@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Modifier mon profil{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-6">
+<h4 class="mb-3">Modifier mon profil</h4>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn text-white w-100" style="background:#0d9488;">Enregistrer</button>
+</form>
+</div></div>
+{% endblock %}

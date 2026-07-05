@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Médecins disponibles{% endblock %}
+{% block content %}
+<h3 class="mb-4">Trouver un médecin</h3>
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <select name="specialite" class="form-select" onchange="this.form.submit()">
+            <option value="">Toutes les spécialités</option>
+            {% for spec in specialites %}
+                <option value="{{ spec }}" {% if spec == specialite_active %}selected{% endif %}>{{ spec }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+<div class="row g-4">
+    {% for medecin in medecins %}
+    <div class="col-md-4">
+        <div class="card card-medecin h-100 border-0 shadow-sm rounded-4">
+            <div class="card-body text-center">
+                <i class="bi bi-person-badge display-5" style="color:#0d9488;"></i>
+                <h5 class="mt-3 mb-0">Dr {{ medecin.user.get_full_name|default:medecin.user.username }}</h5>
+                <p class="text-muted mb-1">{{ medecin.specialite|default:"Médecine générale" }}</p>
+                {% if medecin.tarif_consultation %}<p class="small text-muted">À partir de {{ medecin.tarif_consultation }} €</p>{% endif %}
+                <a href="{% url 'accounts:fiche_medecin' medecin.id %}" class="btn btn-outline-secondary btn-sm mt-2">Voir le profil</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">Aucun médecin disponible pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}

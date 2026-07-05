@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Dossier de {{ patient.get_full_name }}{% endblock %}
+{% block content %}
+<h4 class="mb-4">Dossier médical — {{ patient.get_full_name|default:patient.username }}</h4>
+{% if dossier %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <p><strong>Groupe sanguin :</strong> {{ dossier.get_groupe_sanguin_display }}</p>
+            <p><strong>Allergies :</strong><br>{{ dossier.allergies|linebreaks|default:"Aucune renseignée" }}</p>
+            <p><strong>Antécédents :</strong><br>{{ dossier.antecedents_medicaux|linebreaks|default:"Aucun renseigné" }}</p>
+            <p><strong>Traitements en cours :</strong><br>{{ dossier.traitements_en_cours|linebreaks|default:"Aucun" }}</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h6>Historique des consultations avec vous</h6>
+            <ul class="list-group list-group-flush">
+                {% for rdv in historique %}<li class="list-group-item px-0">{{ rdv.date|date:"d/m/Y" }}</li>
+                {% empty %}<li class="list-group-item px-0 text-muted">Aucune consultation terminée.</li>{% endfor %}
+            </ul>
+        </div>
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h6>Ordonnances rédigées</h6>
+            <ul class="list-group list-group-flush">
+                {% for p in prescriptions %}
+                <li class="list-group-item px-0"><a href="{% url 'prescriptions:detail' p.id %}">Ordonnance du {{ p.date_emission|date:"d/m/Y" }}</a></li>
+                {% empty %}<li class="list-group-item px-0 text-muted">Aucune ordonnance.</li>{% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% else %}
+<p class="text-muted">Ce patient n'a pas encore renseigné de dossier médical.</p>
+{% endif %}
+{% endblock %}

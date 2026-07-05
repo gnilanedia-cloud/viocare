@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Mon agenda{% endblock %}
+{% block content %}
+<h4 class="mb-4">Mon agenda</h4>
+<div class="table-responsive">
+<table class="table align-middle bg-white rounded-4 shadow-sm">
+<thead><tr><th>Patient</th><th>Date</th><th>Heure</th><th>Statut</th><th>Motif</th><th></th></tr></thead>
+<tbody>
+{% for rdv in rendez_vous %}
+<tr>
+    <td>{{ rdv.patient.get_full_name|default:rdv.patient.username }}</td>
+    <td>{{ rdv.date|date:"d/m/Y" }}</td>
+    <td>{{ rdv.heure|time:"H:i" }}</td>
+    <td><span class="badge badge-statut-{{ rdv.statut }}">{{ rdv.get_statut_display }}</span></td>
+    <td>{{ rdv.motif|default:"—"|truncatechars:40 }}</td>
+    <td class="d-flex gap-1">
+        {% if rdv.statut == 'en_attente' %}
+            <a href="{% url 'appointments:confirmer_rendez_vous' rdv.id %}" class="btn btn-sm text-white" style="background:#0d9488;">Confirmer</a>
+        {% endif %}
+        {% if rdv.statut == 'confirme' %}
+            <a href="{% url 'consultations:rejoindre' rdv.id %}" class="btn btn-sm text-white" style="background:#0d9488;">Démarrer</a>
+        {% endif %}
+        <a href="{% url 'records:dossier_patient' rdv.patient.id %}" class="btn btn-sm btn-outline-secondary">Dossier</a>
+        <a href="{% url 'appointments:annuler_rendez_vous' rdv.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Annuler ce rendez-vous ?');">Annuler</a>
+    </td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="text-muted text-center py-3">Aucun rendez-vous à venir.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

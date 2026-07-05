@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Mes rendez-vous{% endblock %}
+{% block content %}
+<h4 class="mb-4">Mes rendez-vous</h4>
+<div class="table-responsive">
+<table class="table align-middle bg-white rounded-4 shadow-sm">
+<thead><tr><th>Médecin</th><th>Date</th><th>Heure</th><th>Statut</th><th>Motif</th><th></th></tr></thead>
+<tbody>
+{% for rdv in rendez_vous %}
+<tr>
+    <td>Dr {{ rdv.medecin.get_full_name|default:rdv.medecin.username }}</td>
+    <td>{{ rdv.date|date:"d/m/Y" }}</td>
+    <td>{{ rdv.heure|time:"H:i" }}</td>
+    <td><span class="badge badge-statut-{{ rdv.statut }}">{{ rdv.get_statut_display }}</span></td>
+    <td>{{ rdv.motif|default:"—"|truncatechars:40 }}</td>
+    <td>
+        {% if rdv.statut == 'confirme' %}
+            <a href="{% url 'consultations:rejoindre' rdv.id %}" class="btn btn-sm text-white" style="background:#0d9488;">Rejoindre</a>
+        {% endif %}
+        {% if rdv.statut == 'en_attente' or rdv.statut == 'confirme' %}
+            <a href="{% url 'appointments:annuler_rendez_vous' rdv.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Annuler ce rendez-vous ?');">Annuler</a>
+        {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="text-muted text-center py-3">Aucun rendez-vous pour le moment.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

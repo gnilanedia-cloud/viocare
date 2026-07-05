@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Ordonnance{% endblock %}
+{% block content %}
+<div class="card border-0 shadow-sm rounded-4 p-4" id="ordonnance">
+    <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+        <div>
+            <h5 class="mb-0">VisioCare</h5>
+            <small class="text-muted">Ordonnance numérique</small>
+        </div>
+        <div class="text-end">
+            <div>Le {{ prescription.date_emission|date:"d/m/Y" }}</div>
+            {% if prescription.valide_jusquau %}<small class="text-muted">Valide jusqu'au {{ prescription.valide_jusquau|date:"d/m/Y" }}</small>{% endif %}
+        </div>
+    </div>
+    <p><strong>Médecin :</strong> Dr {{ prescription.medecin.get_full_name|default:prescription.medecin.username }}
+        {% if prescription.medecin.profile.specialite %}({{ prescription.medecin.profile.specialite }}){% endif %}</p>
+    <p><strong>Patient :</strong> {{ prescription.patient.get_full_name|default:prescription.patient.username }}</p>
+    <hr>
+    <h6>Médicaments prescrits</h6>
+    <ul>
+        {% for m in prescription.liste_medicaments %}<li>{{ m }}</li>{% endfor %}
+    </ul>
+    {% if prescription.instructions %}
+    <h6>Instructions</h6>
+    <p>{{ prescription.instructions|linebreaks }}</p>
+    {% endif %}
+</div>
+<button class="btn btn-outline-secondary mt-3 no-print" onclick="window.print()">
+    <i class="bi bi-printer"></i> Imprimer / Enregistrer en PDF
+</button>
+<style>@media print { .navbar, footer, .no-print { display: none !important; } }</style>
+{% endblock %}

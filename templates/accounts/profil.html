@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Mon profil{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-6">
+<div class="card border-0 shadow-sm rounded-4 p-4">
+    <h4>Mon profil</h4>
+    <p><strong>Nom :</strong> {{ user.get_full_name }}</p>
+    <p><strong>E-mail :</strong> {{ user.email }}</p>
+    <p><strong>Téléphone :</strong> {{ profile.telephone|default:"—" }}</p>
+    <p><strong>Rôle :</strong> {{ profile.get_role_display }}</p>
+    {% if profile.is_medecin %}
+    <p><strong>Spécialité :</strong> {{ profile.specialite }}</p>
+    <p><strong>Numéro d'ordre :</strong> {{ profile.numero_ordre }}</p>
+    {% endif %}
+    <a href="{% url 'accounts:modifier_profil' %}" class="btn text-white mt-2" style="background:#0d9488;">Modifier mon profil</a>
+</div>
+</div></div>
+{% endblock %}

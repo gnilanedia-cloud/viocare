@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Rédiger une ordonnance{% endblock %}
+{% block content %}
+<h4 class="mb-3">Rédiger une ordonnance pour {{ consultation.rendez_vous.patient.get_full_name|default:consultation.rendez_vous.patient.username }}</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn text-white" style="background:#0d9488;">Enregistrer l'ordonnance</button>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Connexion{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+                <h4 class="mb-4 text-center">Connexion à VisioCare</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger">Identifiants incorrects. Veuillez réessayer.</div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label class="form-label">Nom d'utilisateur</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mot de passe</label>
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-teal w-100" style="background:#0d9488;color:#fff;">Se connecter</button>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{% url 'accounts:password_reset' %}">Mot de passe oublié ?</a>
+                </div>
+                <hr>
+                <p class="text-center mb-0">Pas encore de compte ? <a href="{% url 'accounts:choix_inscription' %}">Inscrivez-vous</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

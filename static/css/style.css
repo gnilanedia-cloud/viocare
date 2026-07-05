@@ -1,0 +1,39 @@
+body {
+    background-color: #f8fafc;
+}
+
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
+
+.card-medecin {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-medecin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+.badge-statut-en_attente { background-color: #f59e0b; }
+.badge-statut-confirme { background-color: #0d9488; }
+.badge-statut-termine { background-color: #6b7280; }
+.badge-statut-annule { background-color: #dc2626; }
+
+/* Style générique pour les champs de formulaire Django non habillés en Bootstrap */
+input[type="text"], input[type="password"], input[type="email"], input[type="date"],
+input[type="time"], input[type="number"], input[type="tel"], select, textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+input[type="date"]:focus, input[type="time"]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #0d9488;
+    box-shadow: 0 0 0 0.2rem rgba(13,148,136,0.15);
+}
+.errorlist { color: #dc2626; list-style: none; padding-left: 0; font-size: 0.9rem; }

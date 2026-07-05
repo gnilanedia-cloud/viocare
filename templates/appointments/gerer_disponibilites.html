@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Mes disponibilités{% endblock %}
+{% block content %}
+<h4 class="mb-4">Mes disponibilités (agenda récurrent)</h4>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm rounded-4 p-3 mb-4">
+            <h6>Ajouter un créneau récurrent</h6>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn text-white w-100" style="background:#0d9488;">Ajouter</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <table class="table bg-white rounded-4 shadow-sm">
+            <thead><tr><th>Jour</th><th>De</th><th>À</th><th>Durée créneau</th><th></th></tr></thead>
+            <tbody>
+            {% for d in disponibilites %}
+            <tr>
+                <td>{{ d.get_jour_semaine_display }}</td>
+                <td>{{ d.heure_debut|time:"H:i" }}</td>
+                <td>{{ d.heure_fin|time:"H:i" }}</td>
+                <td>{{ d.duree_creneau_minutes }} min</td>
+                <td><a href="{% url 'appointments:supprimer_disponibilite' d.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-muted text-center py-3">Aucune disponibilité définie.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

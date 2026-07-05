@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Dr {{ medecin.user.get_full_name }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-7">
+<div class="card border-0 shadow-sm rounded-4 p-4">
+    <h3>Dr {{ medecin.user.get_full_name|default:medecin.user.username }}</h3>
+    <p class="text-muted">{{ medecin.specialite|default:"Médecine générale" }}</p>
+    {% if medecin.biographie %}<p>{{ medecin.biographie }}</p>{% endif %}
+    {% if medecin.tarif_consultation %}<p><strong>Tarif :</strong> {{ medecin.tarif_consultation }} €</p>{% endif %}
+    {% if user.is_authenticated and user.profile.is_patient %}
+        <a href="{% url 'appointments:prendre_rendez_vous' medecin.id %}" class="btn text-white mt-3" style="background:#0d9488;">Prendre rendez-vous</a>
+    {% elif not user.is_authenticated %}
+        <a href="{% url 'accounts:login' %}" class="btn text-white mt-3" style="background:#0d9488;">Connectez-vous pour prendre rendez-vous</a>
+    {% endif %}
+</div>
+</div></div>
+{% endblock %}

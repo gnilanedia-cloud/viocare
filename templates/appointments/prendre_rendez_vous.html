@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Prendre rendez-vous{% endblock %}
+{% block content %}
+<h4>Prendre rendez-vous avec Dr {{ medecin.get_full_name|default:medecin.username }}</h4>
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <form method="get">
+            <label class="form-label">Choisissez une date</label>
+            <input type="date" name="date" value="{{ date_choisie }}" class="form-control" onchange="this.form.submit()">
+        </form>
+    </div>
+</div>
+
+{% if date_choisie %}
+    {% if creneaux %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ date_choisie }}">
+        <div class="mb-3">
+            <label class="form-label">Créneau disponible</label>
+            {{ form.heure }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Motif de la consultation (optionnel)</label>
+            {{ form.motif }}
+        </div>
+        <button type="submit" class="btn text-white" style="background:#0d9488;">Confirmer la demande de rendez-vous</button>
+    </form>
+    {% else %}
+    <div class="alert alert-warning">Aucun créneau disponible à cette date. Essayez une autre date.</div>
+    {% endif %}
+{% else %}
+<p class="text-muted">Sélectionnez une date pour voir les créneaux disponibles.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Clôturer la consultation{% endblock %}
+{% block content %}
+<h4 class="mb-3">Clôturer la consultation</h4>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Notes cliniques</label>
+        <textarea name="notes_medecin" rows="6" class="form-control">{{ consultation.notes_medecin }}</textarea>
+    </div>
+    <button type="submit" class="btn text-white" style="background:#0d9488;">Enregistrer et clôturer</button>
+</form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Ordonnances{% endblock %}
+{% block content %}
+<h4 class="mb-4">{% if user.profile.is_medecin %}Ordonnances rédigées{% else %}Mes ordonnances{% endif %}</h4>
+<div class="list-group">
+{% for p in prescriptions %}
+<a href="{% url 'prescriptions:detail' p.id %}" class="list-group-item list-group-item-action d-flex justify-content-between">
+    <span>
+        {% if user.profile.is_medecin %}Patient : {{ p.patient.get_full_name|default:p.patient.username }}
+        {% else %}Dr {{ p.medecin.get_full_name|default:p.medecin.username }}{% endif %}
+    </span>
+    <span class="text-muted">{{ p.date_emission|date:"d/m/Y" }}</span>
+</a>
+{% empty %}
+<p class="text-muted">Aucune ordonnance pour le moment.</p>
+{% endfor %}
+</div>
+{% endblock %}
