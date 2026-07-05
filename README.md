@@ -97,7 +97,8 @@ dans le fichier WSGI à l'étape e) :
 ```bash
 export DJANGO_SECRET_KEY="une-cle-secrete-longue-et-aleatoire"
 export DJANGO_DEBUG="False"
-export DJANGO_ALLOWED_HOSTS="VOTRE-UTILISATEUR.pythonanywhere.com"
+export DJANGO_ALLOWED_HOSTS="visiocare.pythonanywhere.com"
+export DJANGO_CSRF_TRUSTED_ORIGINS="https://visiocare.pythonanywhere.com"
 ```
 
 Générez une clé secrète robuste avec :
@@ -118,36 +119,37 @@ python manage.py createsuperuser
 
 1. Onglet **Web** > **Add a new web app** > choisissez **Manual configuration** > Python 3.10.
 2. Dans la section **Code** :
-   - **Source code** : `/home/VOTRE-UTILISATEUR/visiocare`
-   - **Working directory** : `/home/VOTRE-UTILISATEUR/visiocare`
+   - **Source code** : `/home/visiocare/visiocare`
+   - **Working directory** : `/home/visiocare/visiocare`
 3. Dans la section **Virtualenv** :
-   - `/home/VOTRE-UTILISATEUR/visiocare/venv`
+   - `/home/visiocare/visiocare/venv`
 4. Cliquez sur le lien **WSGI configuration file** et remplacez son contenu par :
 
    ```python
    import os
    import sys
 
-   path = '/home/VOTRE-UTILISATEUR/visiocare'
+   path = '/home/visiocare/visiocare'
    if path not in sys.path:
        sys.path.insert(0, path)
 
    os.environ['DJANGO_SETTINGS_MODULE'] = 'visiocare.settings'
    os.environ['DJANGO_SECRET_KEY'] = 'une-cle-secrete-longue-et-aleatoire'
    os.environ['DJANGO_DEBUG'] = 'False'
-   os.environ['DJANGO_ALLOWED_HOSTS'] = 'VOTRE-UTILISATEUR.pythonanywhere.com'
+   os.environ['DJANGO_ALLOWED_HOSTS'] = 'visiocare.pythonanywhere.com'
+   os.environ['DJANGO_CSRF_TRUSTED_ORIGINS'] = 'https://visiocare.pythonanywhere.com'
 
    from django.core.wsgi import get_wsgi_application
    application = get_wsgi_application()
    ```
 
 5. Dans la section **Static files**, ajoutez :
-   - URL `/static/` → Directory `/home/VOTRE-UTILISATEUR/visiocare/staticfiles`
-   - URL `/media/` → Directory `/home/VOTRE-UTILISATEUR/visiocare/media`
+   - URL `/static/` → Directory `/home/visiocare/visiocare/staticfiles`
+   - URL `/media/` → Directory `/home/visiocare/visiocare/media`
 
 6. Cliquez sur **Reload** en haut de la page.
 
-Votre application est en ligne sur `https://VOTRE-UTILISATEUR.pythonanywhere.com`.
+Votre application est en ligne sur `https://visiocare.pythonanywhere.com`.
 
 ### f) Rappels automatiques (tâche planifiée)
 
@@ -155,7 +157,7 @@ Dans l'onglet **Tasks** de PythonAnywhere (disponible même sur le compte
 gratuit, 1 tâche par jour), ajoutez une tâche quotidienne :
 
 ```bash
-source /home/VOTRE-UTILISATEUR/visiocare/venv/bin/activate && python /home/VOTRE-UTILISATEUR/visiocare/manage.py send_reminders
+source /home/visiocare/visiocare/venv/bin/activate && python /home/visiocare/visiocare/manage.py send_reminders
 ```
 
 ### g) Mettre à jour l'application après un nouveau commit

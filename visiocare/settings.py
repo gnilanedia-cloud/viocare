@@ -20,10 +20,15 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get(
     'DJANGO_ALLOWED_HOSTS',
-    'localhost,127.0.0.1'
+    'visiocare.pythonanywhere.com,localhost,127.0.0.1'
 ).split(',')
 
-# Ex. sur PythonAnywhere : DJANGO_ALLOWED_HOSTS=votreusername.pythonanywhere.com
+# Nécessaire pour que Django accepte les soumissions de formulaires (POST)
+# en HTTPS depuis le domaine PythonAnywhere (protection CSRF).
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'DJANGO_CSRF_TRUSTED_ORIGINS',
+    'https://visiocare.pythonanywhere.com'
+).split(',')
 
 # -----------------------------------------------------------------------
 # APPLICATIONS
@@ -113,15 +118,17 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# En développement (DEBUG=True), on garde un stockage simple pour éviter
-# d'avoir à lancer `collectstatic` à chaque changement. En production,
-# WhiteNoise sert les fichiers statiques compressés avec cache-busting.
+# En développement (DEBUG=True), Django sert les fichiers statiques
+# directement (pas besoin de collectstatic). En production, WhiteNoise sert
+# les fichiers statiques compressés. On utilise volontairement une storage
+# SANS manifest de hachage : plus robuste pour un déploiement simple (évite
+# une erreur bloquante si `collectstatic` a été oublié après une modif de CSS).
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {
         "BACKEND": (
             "django.contrib.staticfiles.storage.StaticFilesStorage" if DEBUG
-            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+            else "whitenoise.storage.CompressedStaticFilesStorage"
         )
     },
 }
