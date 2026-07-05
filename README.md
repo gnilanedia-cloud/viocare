@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VisioCare — Plateforme de télémédecine et consultation à distance
 
 Application Django permettant à des patients de consulter des médecins à
@@ -197,3 +198,6 @@ chiffrement renforcé des données médicales, conformité RGPD/réglementation
 locale sur les données de santé, journalisation des accès, authentification
 à deux facteurs, hébergement conforme (HDS en France par exemple), et un
 audit de sécurité complet.
+=======
+# viocare
+>>>>>>> 54343e552d15abf622473286bb25a22c4bf1e0e0
